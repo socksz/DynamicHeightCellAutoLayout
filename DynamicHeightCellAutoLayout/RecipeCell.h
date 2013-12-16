@@ -5,4 +5,6 @@
 
 - (void)addLabelWithIngredient:(Ingredient *)ingredient;
 
+- (void)addLabelsForIngredients:(NSArray *)ingredients;
+
 @end

@@ -12,34 +12,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="RecipeCell" rowHeight="90" id="y3z-RY-Y3U" customClass="RecipeCell">
-                                <rect key="frame" x="0.0" y="22" width="320" height="90"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="y3z-RY-Y3U" id="ruA-dn-9jJ">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="89"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <subviews>
-                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="auG-OL-0mK">
-                                            <rect key="frame" x="20" y="15" width="60" height="60"/>
-                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                            <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                            <constraints>
-                                                <constraint firstAttribute="height" constant="60" id="QIo-e4-nF7"/>
-                                                <constraint firstAttribute="width" constant="60" id="cxB-RG-uhr"/>
-                                            </constraints>
-                                        </view>
-                                    </subviews>
-                                    <constraints>
-                                        <constraint firstItem="auG-OL-0mK" firstAttribute="top" secondItem="ruA-dn-9jJ" secondAttribute="top" constant="15" id="MuO-yy-Pgh"/>
-                                        <constraint firstItem="auG-OL-0mK" firstAttribute="leading" secondItem="ruA-dn-9jJ" secondAttribute="leading" constant="20" id="jDF-ga-eGX"/>
-                                    </constraints>
-                                </tableViewCellContentView>
-                                <connections>
-                                    <outlet property="iconView" destination="auG-OL-0mK" id="1NK-50-xz1"/>
-                                </connections>
-                            </tableViewCell>
-                        </prototypes>
                         <connections>
                             <outlet property="dataSource" destination="0cT-r5-VqW" id="D1C-U1-gI9"/>
                             <outlet property="delegate" destination="0cT-r5-VqW" id="acH-mW-wnC"/>
