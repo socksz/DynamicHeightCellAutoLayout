@@ -1,7 +1,7 @@
 #import "RecipeCell.h"
 
 #define kLabelHorizontalInsets 20.0f
-#define kLabelVerticalInsets   20.0f
+#define kLabelVerticalInsets   10.0f
 
 @interface RecipeCell ()
 
@@ -21,12 +21,13 @@
     self = [super init];
     if (self) {
         _labels = [[NSMutableArray alloc] init];
+        
         _iconView = [UIView newAutoLayoutView];
         [_iconView setBackgroundColor:[UIColor blueColor]];
         [self.contentView addSubview:_iconView];
-        _labelsContainer = [[UIView alloc] initWithFrame:CGRectZero];
+        
+        _labelsContainer = [UIView newAutoLayoutView];
         [_labelsContainer setBackgroundColor:[UIColor colorWithRed:0.1 green:0.1 blue:0.7 alpha:0.4]];
-        [_labelsContainer setTranslatesAutoresizingMaskIntoConstraints:NO];
         [self.contentView addSubview:_labelsContainer];
     }
     return self;
@@ -42,7 +43,7 @@
     self.contentView.bounds = CGRectMake(0, 0, 99999, 99999);
     
     [self.iconView autoSetDimensionsToSize:CGSizeMake(50.0f, 50.0f)];
-    [self.iconView autoCenterInSuperviewAlongAxis:ALAxisHorizontal];
+    [self.iconView autoPinEdgeToSuperviewEdge:ALEdgeTop withInset:kLabelVerticalInsets];
     [self.iconView autoPinEdgeToSuperviewEdge:ALEdgeLeft withInset:kLabelHorizontalInsets];
     
     [self.labelsContainer autoPinEdge:ALEdgeLeft toEdge:ALEdgeRight ofView:self.iconView withOffset:kLabelHorizontalInsets];
@@ -50,51 +51,22 @@
     
     // These constraints are important, they say that the labelsContainer must be at least kLabelVerticalInsets
     // from the top and bottom of the contentView. The reason they are inequalities is so the cell can be larger
-    // (and we'll have extra spacing on top & bottom), without breaking any constraints. And in this case,
-    // the centering on the horizontal axis will mean that any extra space on top & bottom is distributed evenly.
-    [self.labelsContainer autoPinEdgeToSuperviewEdge:ALEdgeTop withInset:kLabelVerticalInsets relation:NSLayoutRelationGreaterThanOrEqual];
+    // (and we'll have extra spacing on top & bottom), without breaking any constraints.
+    
+    [self.labelsContainer autoPinEdgeToSuperviewEdge:ALEdgeTop withInset:kLabelVerticalInsets relation:NSLayoutRelationEqual];
     [self.labelsContainer autoPinEdgeToSuperviewEdge:ALEdgeBottom withInset:kLabelVerticalInsets relation:NSLayoutRelationGreaterThanOrEqual];
-    [self.labelsContainer autoCenterInSuperviewAlongAxis:ALAxisHorizontal];
+    
+    [self.labelsContainer autoSetDimension:ALDimensionHeight toSize:80 relation:NSLayoutRelationGreaterThanOrEqual];
     
     self.didSetupConstraints = YES;
-}
-
-- (void)addLabelWithIngredient:(Ingredient *)ingredient
-{
-    NSInteger exerciseCount = [self.labels count];
-    
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectZero];
-    [label setTranslatesAutoresizingMaskIntoConstraints:NO];
-    [label setAdjustsFontSizeToFitWidth:YES];
-    [label setMinimumScaleFactor:0.8];
-    [label setBackgroundColor:[UIColor colorWithWhite:0.1 alpha:0.2]];
-    label.text = ingredient.name;
-    
-    [self.labelsContainer addSubview:label];
-    
-    if (exerciseCount == 0) {
-        [label autoPinEdgeToSuperviewEdge:ALEdgeTop withInset:0];
-        [label autoPinEdgeToSuperviewEdge:ALEdgeLeft withInset:0];
-        [label autoPinEdgeToSuperviewEdge:ALEdgeRight withInset:0];
-    } else {
-        UILabel *lastLabel = [self.labels lastObject];
-        
-        [label autoPinEdge:ALEdgeTop toEdge:ALEdgeBottom ofView:lastLabel withOffset:10];
-        [label autoPinEdgeToSuperviewEdge:ALEdgeLeft withInset:0];
-        [label autoPinEdgeToSuperviewEdge:ALEdgeRight withInset:0];
-    }
-    
-    [self.labels addObject:label];
 }
 
 - (void)addLabelsForIngredients:(NSArray *)ingredients
 {
     for (Ingredient *ingredient in ingredients) {
-        UILabel *label = [[UILabel alloc] initWithFrame:CGRectZero];
-        [label setTranslatesAutoresizingMaskIntoConstraints:NO];
-        [label setAdjustsFontSizeToFitWidth:YES];
-        [label setMinimumScaleFactor:0.8];
+        UILabel *label = [UILabel newAutoLayoutView];
         [label setBackgroundColor:[UIColor colorWithWhite:0.1 alpha:0.2]];
+        
         label.text = ingredient.name;
         
         [self.labelsContainer addSubview:label];

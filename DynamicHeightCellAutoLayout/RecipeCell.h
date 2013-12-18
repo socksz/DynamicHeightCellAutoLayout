@@ -3,8 +3,6 @@
 
 @interface RecipeCell : UITableViewCell
 
-- (void)addLabelWithIngredient:(Ingredient *)ingredient;
-
 - (void)addLabelsForIngredients:(NSArray *)ingredients;
 
 @end

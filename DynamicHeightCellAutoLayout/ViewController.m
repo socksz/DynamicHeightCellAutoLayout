@@ -101,8 +101,6 @@
     
     CGFloat height = [cell.contentView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize].height;
     
-    height = MAX(height, 90); // you can express this in your constraints instead BTW, although it's fine to have
-    
     return height;
 }
 
