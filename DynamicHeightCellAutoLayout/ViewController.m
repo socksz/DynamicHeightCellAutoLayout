@@ -35,6 +35,23 @@
         [donut.ingredients addObject:[Ingredient ingredientWithName:@"Egg"]];
         
         [self.recipes addObject:donut];
+        
+        
+        Recipe *cottonCandy = [[Recipe alloc] init];
+        cottonCandy.name = @"Cotton Candy";
+        
+        [cottonCandy.ingredients addObject:[Ingredient ingredientWithName:@"Sugar"]];
+        
+        [self.recipes addObject:cottonCandy];
+        
+        Recipe *pumpkinPie = [[Recipe alloc] init];
+        pumpkinPie.name = @"Pumpkin Pie";
+        
+        [pumpkinPie.ingredients addObject:[Ingredient ingredientWithName:@"Pumpkin"]];
+        [pumpkinPie.ingredients addObject:[Ingredient ingredientWithName:@"Flour"]];
+        [pumpkinPie.ingredients addObject:[Ingredient ingredientWithName:@"Butter"]];
+        
+        [self.recipes addObject:pumpkinPie];
     }
     return self;
 }
@@ -45,9 +62,7 @@
 {
     Recipe *recipe = [self.recipes objectAtIndex:indexPath.row];
     
-    for (Ingredient *ingredient in recipe.ingredients) {
-        [recipeCell addLabelWithIngredient:ingredient];
-    }
+    [recipeCell addLabelsForIngredients:recipe.ingredients];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -57,7 +72,12 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    RecipeCell *cell = [tableView dequeueReusableCellWithIdentifier:@"RecipeCell" forIndexPath:indexPath];
+    // Commenting out cell reuse, because you'll need to do some more work here to make sure that
+    // different combinations of views (e.g. # of labels) and constraints each get their own reuse
+    // identifier. As currently written, things will blow up because there is 1 reuse pool for all
+    // cells, and each cell has a different number of labels and different set of constraints.
+//    RecipeCell *cell = [tableView dequeueReusableCellWithIdentifier:@"RecipeCell" forIndexPath:indexPath];
+    RecipeCell *cell = [[RecipeCell alloc] init];
     
     [self configureCell:cell atIndexPath:indexPath];
     
@@ -68,14 +88,20 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    RecipeCell *cell = [tableView dequeueReusableCellWithIdentifier:@"RecipeCell"];
+    // See above comment in tableView:cellForRowAtIndexPath: about cell reuse.
+//    RecipeCell *cell = [tableView dequeueReusableCellWithIdentifier:@"RecipeCell"];
+    RecipeCell *cell = [[RecipeCell alloc] init];
+    
+    [self configureCell:cell atIndexPath:indexPath];
+    [cell setNeedsUpdateConstraints];
+    [cell updateConstraintsIfNeeded];
     
     [cell.contentView setNeedsLayout];
     [cell.contentView layoutIfNeeded];
     
     CGFloat height = [cell.contentView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize].height;
     
-    height = MAX(height, 90);
+    height = MAX(height, 90); // you can express this in your constraints instead BTW, although it's fine to have
     
     return height;
 }
